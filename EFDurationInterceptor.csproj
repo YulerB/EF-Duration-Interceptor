@@ -5,7 +5,7 @@
         <RepositoryType>GIT</RepositoryType>
         <IsPackable>true</IsPackable>
         <PackageId>EFDurationInterceptor</PackageId>
-        <PackageLicenseFile>main/LICENSE</PackageLicenseFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Version>3.1.19</Version>
         <Company>Brian Yule</Company>
         <PackageDescription>Entity Framework Command Duration Interceptor - Outputs duration as response headers.</PackageDescription>
@@ -13,6 +13,11 @@
     </PropertyGroup>
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="main/LICENSE" Pack="true" PackagePath="$(PackageLicenseFile)">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
