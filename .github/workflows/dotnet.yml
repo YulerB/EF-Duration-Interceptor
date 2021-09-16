@@ -21,4 +21,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
-    
+    - name: Pack
+      run: dotnet pack --configuration Release
+    - name: Build
+      run: dotnet nuget push "bin/Release/EFDurationInterceptor.1.0.0.nupkg"  --api-key oy2o6vr7bnczafrp3uta4eiwrcg4r6qutoags4ffsjs4iq --source "github"
