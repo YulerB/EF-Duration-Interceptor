@@ -14,11 +14,9 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
-    <ItemGroup>
-      <None Include="main/LICENSE" Pack="true" PackagePath="$(PackageLicenseFile)">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+      <ItemGroup>
+        <None Include="License" Pack="true" Visible="false" PackagePath=""/>
+      </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
