@@ -1,6 +1,7 @@
 # EF-Duration-Interceptor
 
-[![.NET](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.yml)[![CodeQL](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml)
+[![.NET](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.yml)
+[![CodeQL](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml)
 ![NuGet Badge](https://buildstats.info/nuget/EFDurationInterceptor)
 
 Entity Framework Command Duration Interceptor - Outputs as a response header.
