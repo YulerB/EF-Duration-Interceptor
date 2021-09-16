@@ -5,7 +5,7 @@
         <RepositoryType>GIT</RepositoryType>
         <IsPackable>true</IsPackable>
         <PackageId>EFDurationInterceptor</PackageId>
-        <PackageLicenseFile>blob/main/LICENSE</PackageLicenseFile>
+        <PackageLicenseFile>main/LICENSE</PackageLicenseFile>
         <Version>3.1.19</Version>
         <Company>Brian Yule</Company>
         <PackageDescription>Entity Framework Command Duration Interceptor - Outputs duration as response headers.</PackageDescription>
