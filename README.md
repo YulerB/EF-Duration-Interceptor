@@ -17,3 +17,5 @@ services
   .UseSqlServer(connectionString)
   .AddInterceptors(provider.GetRequiredService<DurationDbInterceptor>())); 
 ```
+
+![Screenshot](output.jpg)
