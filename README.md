@@ -1,4 +1,7 @@
 # EF-Duration-Interceptor
+
+![example workflow](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/.NET/badge.svg)
+
 Entity Framework Command Duration Interceptor - Outputs as a response header.
 
 
