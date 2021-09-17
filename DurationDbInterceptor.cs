@@ -197,7 +197,7 @@ namespace EFDurationInterceptor
 
         protected virtual void OnComplete(List<DbContextEventData> eventDataList, HttpContext context)
         {
-            if(context != null){
+            if(context == null){
                 return;
             }
             
