@@ -10,7 +10,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+/home/runner/work/EF-Duration-Interceptor/EF-Duration-Interceptor
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -21,11 +21,11 @@ jobs:
       working-directory: ./src
       run: dotnet restore
     - name: Build
-      working-directory: ./src
+      working-directory: ${{GITHUB_WORKSPACE}}/src
       run: dotnet build --no-restore --configuration Release
     - name: Pack
-      working-directory: ./src
+      working-directory: ${{GITHUB_WORKSPACE}}/src
       run: dotnet pack --configuration Release
     - name: Push
-      working-directory: ./src
+      working-directory: ${{GITHUB_WORKSPACE}}/src
       run: dotnet nuget push "/bin/Release/EFDurationInterceptor.3.1.19.nupkg"  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"  --skip-duplicate
