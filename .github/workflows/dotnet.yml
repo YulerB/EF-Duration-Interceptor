@@ -18,10 +18,14 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore "./src/EFDurationInterceptor.csproj"
+      working-directory: ./src
+      run: dotnet restore
     - name: Build
-      run: dotnet build "./src/EFDurationInterceptor.csproj" --no-restore --configuration Release
+      working-directory: ./src
+      run: dotnet build --no-restore --configuration Release
     - name: Pack
-      run: dotnet pack "./src/EFDurationInterceptor.csproj" --configuration Release
+      working-directory: ./src
+      run: dotnet pack --configuration Release
     - name: Push
-      run: dotnet nuget push "./src/bin/Release/EFDurationInterceptor.3.1.19.nupkg"  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"  --skip-duplicate
+      working-directory: ./src
+      run: dotnet nuget push "/bin/Release/EFDurationInterceptor.3.1.19.nupkg"  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"  --skip-duplicate
