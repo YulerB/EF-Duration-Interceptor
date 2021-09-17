@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Authors>Brian Yule</Authors>
+        <RepositoryType>GIT</RepositoryType>
+        <IsPackable>true</IsPackable>
+        <PackageId>EFDurationInterceptor</PackageId>
+        <Version>3.1.19</Version>
+        <Company>Brian Yule</Company>
+        <PackageDescription>Entity Framework Command Duration Interceptor - Outputs duration as response headers.</PackageDescription>
+        <RepositoryUrl>https://github.com/YulerB/EF-Duration-Interceptor</RepositoryUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.19" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+</Project>
