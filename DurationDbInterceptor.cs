@@ -16,7 +16,7 @@ namespace EFDurationInterceptor
         public const string XDbConnectionMsHeader = "X-DB-CON-MS";
 
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly List<DbContextEventData> events = new List<DbContextEventData>();
+        private readonly List<DbContextEventData> events;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DurationDbInterceptor"/> class.
@@ -26,6 +26,7 @@ namespace EFDurationInterceptor
         public DurationDbInterceptor(IHttpContextAccessor httpContextAccessor)
         {
             this.httpContextAccessor = httpContextAccessor;
+            this.events = new List<DbContextEventData>();
         }
 
         public InterceptionResult<DbCommand> CommandCreating(CommandCorrelatedEventData eventData, InterceptionResult<DbCommand> result)
@@ -167,14 +168,14 @@ namespace EFDurationInterceptor
         public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData)
         {
             events.Add(eventData);
-            OnComplete();
+            OnComplete(events);
             events.Clear();
         }
 
         public Task ConnectionClosedAsync(DbConnection connection, ConnectionEndEventData eventData)
         {
             events.Add(eventData);
-            OnComplete();
+            OnComplete(events);
             events.Clear();
             return Task.CompletedTask;
         }
@@ -182,28 +183,28 @@ namespace EFDurationInterceptor
         public void ConnectionFailed(DbConnection connection, ConnectionErrorEventData eventData)
         {
             events.Add(eventData);
-            OnComplete();
+            OnComplete(events);
             events.Clear();
         }
 
         public Task ConnectionFailedAsync(DbConnection connection, ConnectionErrorEventData eventData, CancellationToken cancellationToken = default)
         {
             events.Add(eventData);
-            OnComplete();
+            OnComplete(events);
             events.Clear();
             return Task.CompletedTask;
         }
 
-        protected void OnComplete()
+        protected void OnComplete(List<DbContextEventData> eventDataList)
         {
             var commandDuration = (
-                from item in this.events
+                from item in eventDataList
                 where item is CommandExecutedEventData
                 let evData = item as CommandExecutedEventData
                 select evData.Duration.TotalMilliseconds).Sum();
 
             var connectionDuration = (
-                from item in this.events
+                from item in eventDataList
                 where item is ConnectionEndEventData
                 let evData = item as ConnectionEndEventData
                 select evData.Duration.TotalMilliseconds).Sum();
