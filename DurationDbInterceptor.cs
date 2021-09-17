@@ -15,7 +15,7 @@ namespace EFDurationInterceptor
         public const string XDbCommandMsHeader = "X-DB-COM-MS";
         public const string XDbConnectionMsHeader = "X-DB-CON-MS";
 
-        private readonly IHttpContextAccessor httpContextAccessor;
+        protected readonly IHttpContextAccessor httpContextAccessor;
         private readonly List<DbContextEventData> events;
 
         /// <summary>
