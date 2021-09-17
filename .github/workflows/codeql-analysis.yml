@@ -40,5 +40,4 @@ jobs:
       run: dotnet build --no-restore --configuration Release 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
-    - name: Black Duck Scanner
-      uses: philips-labs/blackduck-scanner-action@v1.3
+   
