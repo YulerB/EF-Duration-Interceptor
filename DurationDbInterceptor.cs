@@ -195,7 +195,7 @@ namespace EFDurationInterceptor
             return Task.CompletedTask;
         }
 
-        protected void OnComplete(List<DbContextEventData> eventDataList, HttpContext? context)
+        protected virtual void OnComplete(List<DbContextEventData> eventDataList, HttpContext? context)
         {
             if(context.HasValue){
                 var commandDuration = (
