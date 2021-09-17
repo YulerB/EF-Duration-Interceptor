@@ -16,14 +16,14 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      working-directory: ${{GITHUB_WORKSPACE}}/src
+      working-directory: ${{env.GITHUB_WORKSPACE}}/src
       run: dotnet restore
     - name: Build
-      working-directory: ${{GITHUB_WORKSPACE}}/src
+      working-directory: ${{env.GITHUB_WORKSPACE}}/src
       run: dotnet build --no-restore --configuration Release
     - name: Pack
-      working-directory: ${{GITHUB_WORKSPACE}}/src
+      working-directory: ${{env.GITHUB_WORKSPACE}}/src
       run: dotnet pack --configuration Release
     - name: Push
-      working-directory: ${{GITHUB_WORKSPACE}}/src
+      working-directory: ${{env.GITHUB_WORKSPACE}}/src
       run: dotnet nuget push "/bin/Release/EFDurationInterceptor.3.1.19.nupkg"  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"  --skip-duplicate
