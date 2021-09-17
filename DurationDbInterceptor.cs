@@ -198,39 +198,41 @@ namespace EFDurationInterceptor
         protected virtual void OnComplete(List<DbContextEventData> eventDataList, HttpContext context)
         {
             if(context != null){
-                var commandDuration = (
-                    from item in eventDataList
-                    where item is CommandExecutedEventData
-                    let evData = item as CommandExecutedEventData
-                    select evData.Duration.TotalMilliseconds).Sum();
+                return;
+            }
+            
+            var commandDuration = (
+                from item in eventDataList
+                where item is CommandExecutedEventData
+                let evData = item as CommandExecutedEventData
+                select evData.Duration.TotalMilliseconds).Sum();
 
-                var connectionDuration = (
-                    from item in eventDataList
-                    where item is ConnectionEndEventData
-                    let evData = item as ConnectionEndEventData
-                    select evData.Duration.TotalMilliseconds).Sum();
+            var connectionDuration = (
+                from item in eventDataList
+                where item is ConnectionEndEventData
+                let evData = item as ConnectionEndEventData
+                select evData.Duration.TotalMilliseconds).Sum();
 
-                var headers = context.Response.Headers;
+            var headers = context.Response.Headers;
 
-                if (headers.ContainsKey(XDbCommandMsHeader))
-                {
-                    var updatedCommandDuration = double.Parse(headers[XDbCommandMsHeader][0]) + commandDuration;
-                    headers[XDbCommandMsHeader] = new StringValues(updatedCommandDuration.ToString());
-                }
-                else
-                {
-                    headers.Add(XDbCommandMsHeader, new StringValues(commandDuration.ToString()));
-                }
+            if (headers.ContainsKey(XDbCommandMsHeader))
+            {
+                var updatedCommandDuration = double.Parse(headers[XDbCommandMsHeader][0]) + commandDuration;
+                headers[XDbCommandMsHeader] = new StringValues(updatedCommandDuration.ToString());
+            }
+            else
+            {
+                headers.Add(XDbCommandMsHeader, new StringValues(commandDuration.ToString()));
+            }
 
-                if (headers.ContainsKey(XDbConnectionMsHeader))
-                {
-                    var updatedConnectionDuration = double.Parse(headers[XDbConnectionMsHeader][0]) + connectionDuration;
-                    headers[XDbConnectionMsHeader] = new StringValues(updatedConnectionDuration.ToString());
-                }
-                else
-                {
-                    headers.Add(XDbConnectionMsHeader, new StringValues(connectionDuration.ToString()));
-                }
+            if (headers.ContainsKey(XDbConnectionMsHeader))
+            {
+                var updatedConnectionDuration = double.Parse(headers[XDbConnectionMsHeader][0]) + connectionDuration;
+                headers[XDbConnectionMsHeader] = new StringValues(updatedConnectionDuration.ToString());
+            }
+            else
+            {
+                headers.Add(XDbConnectionMsHeader, new StringValues(connectionDuration.ToString()));
             }
         }
     }
