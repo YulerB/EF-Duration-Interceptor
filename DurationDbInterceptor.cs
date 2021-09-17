@@ -15,7 +15,7 @@ namespace EFDurationInterceptor
         public const string XDbCommandMsHeader = "X-DB-COM-MS";
         public const string XDbConnectionMsHeader = "X-DB-CON-MS";
 
-        protected readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly List<DbContextEventData> events;
 
         /// <summary>
@@ -168,14 +168,14 @@ namespace EFDurationInterceptor
         public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData)
         {
             events.Add(eventData);
-            OnComplete(events);
+            OnComplete(events, httpContextAccessor.HttpContext);
             events.Clear();
         }
 
         public Task ConnectionClosedAsync(DbConnection connection, ConnectionEndEventData eventData)
         {
             events.Add(eventData);
-            OnComplete(events);
+            OnComplete(events, httpContextAccessor.HttpContext);
             events.Clear();
             return Task.CompletedTask;
         }
@@ -183,52 +183,54 @@ namespace EFDurationInterceptor
         public void ConnectionFailed(DbConnection connection, ConnectionErrorEventData eventData)
         {
             events.Add(eventData);
-            OnComplete(events);
+            OnComplete(events, httpContextAccessor.HttpContext);
             events.Clear();
         }
 
         public Task ConnectionFailedAsync(DbConnection connection, ConnectionErrorEventData eventData, CancellationToken cancellationToken = default)
         {
             events.Add(eventData);
-            OnComplete(events);
+            OnComplete(events, httpContextAccessor.HttpContext);
             events.Clear();
             return Task.CompletedTask;
         }
 
-        protected void OnComplete(List<DbContextEventData> eventDataList)
+        protected void OnComplete(List<DbContextEventData> eventDataList, HttpContext? context)
         {
-            var commandDuration = (
-                from item in eventDataList
-                where item is CommandExecutedEventData
-                let evData = item as CommandExecutedEventData
-                select evData.Duration.TotalMilliseconds).Sum();
+            if(context.HasValue){
+                var commandDuration = (
+                    from item in eventDataList
+                    where item is CommandExecutedEventData
+                    let evData = item as CommandExecutedEventData
+                    select evData.Duration.TotalMilliseconds).Sum();
 
-            var connectionDuration = (
-                from item in eventDataList
-                where item is ConnectionEndEventData
-                let evData = item as ConnectionEndEventData
-                select evData.Duration.TotalMilliseconds).Sum();
+                var connectionDuration = (
+                    from item in eventDataList
+                    where item is ConnectionEndEventData
+                    let evData = item as ConnectionEndEventData
+                    select evData.Duration.TotalMilliseconds).Sum();
 
-            var headers = httpContextAccessor.HttpContext.Response.Headers;
+                var headers = context.Response.Headers;
 
-            if (headers.ContainsKey(XDbCommandMsHeader))
-            {
-                var updatedCommandDuration = double.Parse(headers[XDbCommandMsHeader][0]) + commandDuration;
-                headers[XDbCommandMsHeader] = new StringValues(updatedCommandDuration.ToString());
-            }
-            else
-            {
-                headers.Add(XDbCommandMsHeader, new StringValues(commandDuration.ToString()));
-            }
+                if (headers.ContainsKey(XDbCommandMsHeader))
+                {
+                    var updatedCommandDuration = double.Parse(headers[XDbCommandMsHeader][0]) + commandDuration;
+                    headers[XDbCommandMsHeader] = new StringValues(updatedCommandDuration.ToString());
+                }
+                else
+                {
+                    headers.Add(XDbCommandMsHeader, new StringValues(commandDuration.ToString()));
+                }
 
-            if (headers.ContainsKey(XDbConnectionMsHeader))
-            {
-                var updatedConnectionDuration = double.Parse(headers[XDbConnectionMsHeader][0]) + connectionDuration;
-                headers[XDbConnectionMsHeader] = new StringValues(updatedConnectionDuration.ToString());
-            }
-            else
-            {
-                headers.Add(XDbConnectionMsHeader, new StringValues(connectionDuration.ToString()));
+                if (headers.ContainsKey(XDbConnectionMsHeader))
+                {
+                    var updatedConnectionDuration = double.Parse(headers[XDbConnectionMsHeader][0]) + connectionDuration;
+                    headers[XDbConnectionMsHeader] = new StringValues(updatedConnectionDuration.ToString());
+                }
+                else
+                {
+                    headers.Add(XDbConnectionMsHeader, new StringValues(connectionDuration.ToString()));
+                }
             }
         }
     }
