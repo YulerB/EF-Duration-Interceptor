@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +16,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      working-directory: ./src
+      working-directory: ${{GITHUB_WORKSPACE}}/src
       run: dotnet restore
     - name: Build
       working-directory: ${{GITHUB_WORKSPACE}}/src
