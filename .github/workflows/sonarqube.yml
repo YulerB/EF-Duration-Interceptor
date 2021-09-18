@@ -21,15 +21,27 @@ jobs:
     - name: Restore dependencies
       working-directory: src
       run: dotnet restore
+    - name: Restore Test dependencies
+      working-directory: test
+      run: dotnet restore
     - name: Sonar Begin
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       working-directory: src
-      run: dotnet-sonarscanner begin /k:"YulerB_EF-Duration-Interceptor" /o:"yulerb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+      run: dotnet-sonarscanner begin /k:"YulerB_EF-Duration-Interceptor" /o:"yulerb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml /v:1.0.1.${{ github.run_number }}
     - name: Build
       working-directory: src
       run: dotnet build --no-restore --configuration Release
+    - name: Build Test
+      working-directory: test
+      run: dotnet build --no-restore 
+    - name: Test
+      working-directory: test
+      run: dotnet test --logger:"trx" --logger:"junit;LogFilePath=./TestResults/junit.xml" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+    - name: Copy Test Results
+    
+      run: cp -avr test/TestResults/* src/.
     - name: Sonar End
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any

@@ -9,6 +9,7 @@
         <Company>Brian Yule</Company>
         <PackageDescription>Entity Framework Command Duration Interceptor Tests - Outputs duration as response headers.</PackageDescription>
         <RepositoryUrl>https://github.com/YulerB/EF-Duration-Interceptor</RepositoryUrl>
+                <ProjectGuid>{f26a0551-3dcc-46e3-8230-a95c4d2c3197}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
