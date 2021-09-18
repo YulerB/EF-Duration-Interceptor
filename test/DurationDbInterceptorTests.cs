@@ -45,7 +45,7 @@ namespace EFDurationInterceptorTest
                 TimeSpan.FromSeconds(1)
             );
 
-            await test.ConnectionClosingAsync(testConnection, eventDefinition);
+            await test.ConnectionClosingAsync(testConnection, eventDefinition, new InterceptionResult());
         }
 
         [Fact]
@@ -99,7 +99,8 @@ namespace EFDurationInterceptorTest
         public void ConnectionCompletionWithNullContextTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
-            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (null);
+            HttpContext context = null;
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
             SqlConnection testConnection = new SqlConnection();
