@@ -28,7 +28,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      working-directory: src
       run: dotnet-sonarscanner begin /k:"YulerB_EF-Duration-Interceptor" /o:"yulerb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml /v:1.0.1.${{ github.run_number }}
     - name: Build
       working-directory: src
@@ -38,10 +37,9 @@ jobs:
       run: dotnet build --no-restore 
     - name: Test
       working-directory: test
-      run: dotnet test --logger:"trx;LogFilePath=test-results.trx" --logger:"junit;LogFilePath=test-results.xml" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      run: dotnet test --logger:"trx" --logger:"junit;LogFilePath=test-results.xml" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
     - name: Sonar End
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      working-directory: src
       run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
