@@ -21,6 +21,9 @@ jobs:
     - name: Restore dependencies
       working-directory: src
       run: dotnet restore
+    - name: Restore Test dependencies
+      working-directory: test
+      run: dotnet restore
     - name: Sonar Begin
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -30,6 +33,12 @@ jobs:
     - name: Build
       working-directory: src
       run: dotnet build --no-restore --configuration Release
+    - name: Build Test
+      working-directory: test
+      run: dotnet build --no-restore 
+    - name: Test
+      working-directory: test
+      run: dotnet test 
     - name: Sonar End
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
