@@ -41,7 +41,7 @@ jobs:
       run: dotnet test --logger:"trx" --logger:"junit;LogFilePath=./TestResults/junit.xml" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
     - name: Copy Test Results
     
-      run: cp -avr test/TestResults/* src/TestResults/.
+      run: cp -avr test/TestResults/* src/.
     - name: Sonar End
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
