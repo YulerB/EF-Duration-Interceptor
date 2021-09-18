@@ -52,6 +52,7 @@ namespace EFDurationInterceptorTest
             );
 
             test.NonQueryExecuted(testCommand, eventDefinition, 1);
+            ConnectionDoubleCompletionTest();
         }
 
         [Fact]
