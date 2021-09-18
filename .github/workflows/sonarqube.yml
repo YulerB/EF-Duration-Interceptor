@@ -29,7 +29,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       working-directory: src
-      run: dotnet-sonarscanner begin /k:"YulerB_EF-Duration-Interceptor" /o:"yulerb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+      run: dotnet-sonarscanner begin /k:"YulerB_EF-Duration-Interceptor" /o:"yulerb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml /v:1.0.1.${{ github.run_number }}
     - name: Build
       working-directory: src
       run: dotnet build --no-restore --configuration Release
