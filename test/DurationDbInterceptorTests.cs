@@ -26,6 +26,30 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
+        public void ConnectionFailedTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionErrorEventData(
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext, 
+                Guid.NewGuid(), 
+                new Exception("Test"),
+                false, 
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.ConnectionFailed(testConnection, eventDefinition);
+        }
+
+        [Fact]
         public async Task ConnectionFailedAsyncTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
