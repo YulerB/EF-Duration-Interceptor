@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Authors>Brian Yule</Authors>
+        <RepositoryType>GIT</RepositoryType>
+        <IsPackable>false</IsPackable>
+        <PackageId>EFDurationInterceptorTests</PackageId>
+        <Version>3.1.19</Version>
+        <Company>Brian Yule</Company>
+        <PackageDescription>Entity Framework Command Duration Interceptor Tests - Outputs duration as response headers.</PackageDescription>
+        <RepositoryUrl>https://github.com/YulerB/EF-Duration-Interceptor</RepositoryUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Net.Test.Sdk" Version="16.8.0" />
+        <PackageReference Include="Moq" Version="4.14.7" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>        
+        <PackageReference Include="coverlet.collector" Version="1.3.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>        
+        <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.19" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="../src/EFDurationInterceptor.csproj" />
+    </ItemGroup>
+</Project>
