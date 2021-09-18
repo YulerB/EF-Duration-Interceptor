@@ -26,10 +26,80 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
-        public void ConnectionClosedTest()
+        public async Task ConnectionClosingAsyncTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEndEventData(
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext, 
+                Guid.NewGuid(), 
+                false, 
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            await test.ConnectionClosingAsync(testConnection, eventDefinition);
+        }
+
+        [Fact]
+        public async Task ConnectionClosedAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEndEventData(
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext, 
+                Guid.NewGuid(), 
+                false, 
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            await test.ConnectionClosedAsync(testConnection, eventDefinition);
+        }
+
+        [Fact]
+        public void ConnectionDoubleCompletionTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEndEventData(
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext, 
+                Guid.NewGuid(), 
+                false, 
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.ConnectionClosed(testConnection, eventDefinition);
+            test.ConnectionClosed(testConnection, eventDefinition);
+        }
+
+        [Fact]
+        public void ConnectionCompletionWithNullContextTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (null);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
             SqlConnection testConnection = new SqlConnection();
