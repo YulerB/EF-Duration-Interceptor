@@ -38,7 +38,7 @@ jobs:
       run: dotnet build --no-restore 
     - name: Test
       working-directory: test
-      run: dotnet test 
+      run: dotnet test --logger trx --logger:\"junit;LogFilePath=./test-results.xml\" --no-build --collect:\"XPlat Code Coverage\" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
     - name: Sonar End
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
