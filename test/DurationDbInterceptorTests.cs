@@ -26,6 +26,35 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
+        public void NonQueryExecutedTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandExecutedEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                1,
+                false, 
+                false,
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.NonQueryExecuted(testCommand, eventDefinition, 1);
+        }
+
+        [Fact]
         public void ScalarExecutedTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
