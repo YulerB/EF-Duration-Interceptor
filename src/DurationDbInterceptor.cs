@@ -37,26 +37,22 @@ namespace EFDurationInterceptor
 
         public DbCommand CommandCreated(CommandEndEventData eventData, DbCommand result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public InterceptionResult<DbDataReader> ReaderExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public InterceptionResult<object> ScalarExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<object> result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public InterceptionResult<int> NonQueryExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<int> result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public Task<InterceptionResult<DbDataReader>> ReaderExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result, CancellationToken cancellationToken = default)
@@ -73,44 +69,37 @@ namespace EFDurationInterceptor
 
         public Task<InterceptionResult<int>> NonQueryExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public DbDataReader ReaderExecuted(DbCommand command, CommandExecutedEventData eventData, DbDataReader result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public object ScalarExecuted(DbCommand command, CommandExecutedEventData eventData, object result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public int NonQueryExecuted(DbCommand command, CommandExecutedEventData eventData, int result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public Task<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData eventData, DbDataReader result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public Task<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData eventData, object result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public Task<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData eventData, int result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public void CommandFailed(DbCommand command, CommandErrorEventData eventData)
@@ -126,20 +115,17 @@ namespace EFDurationInterceptor
 
         public InterceptionResult DataReaderDisposing(DbCommand command, DataReaderDisposingEventData eventData, InterceptionResult result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public Task<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
@@ -149,20 +135,23 @@ namespace EFDurationInterceptor
 
         public Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.CompletedTask;
+            return AddAndReturn(eventData, Task.CompletedTask);
         }
 
         public InterceptionResult ConnectionClosing(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public Task<InterceptionResult> ConnectionClosingAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
+        }
+
+        public T1 AddAndReturn<T, T1>(T t, T1 t1) where T: DbContextEventData 
+        {
+            events.Add(t);
+            return t1;
         }
 
         public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData)
