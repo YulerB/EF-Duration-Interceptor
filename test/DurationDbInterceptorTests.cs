@@ -25,9 +25,8 @@ namespace EFDurationInterceptorTest
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
         }
 
-
         [Fact]
-        public void CommandCreatedTest()
+        public void ScalarExecutedTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
@@ -36,7 +35,35 @@ namespace EFDurationInterceptorTest
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandExecutedEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                null,
+                false, 
+                false,
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
 
+            test.ScalarExecuted(testCommand, eventDefinition, null);
+        }
+
+        [Fact]
+        public void CommandCreatedTest()    
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new CommandEndEventData (
                 testDefinition,  
                 messageGenerator, 
@@ -54,7 +81,6 @@ namespace EFDurationInterceptorTest
 
             test.CommandCreated(eventDefinition, testCommand);
         }
-
 
         [Fact]
         public void ConnectionFailedTest()
