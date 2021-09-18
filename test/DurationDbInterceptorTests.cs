@@ -49,6 +49,29 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
+        public void ConnectionClosingTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEndEventData(
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext, 
+                Guid.NewGuid(), 
+                false, 
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.ConnectionClosing(testConnection, eventDefinition, new InterceptionResult());
+        }
+
+        [Fact]
         public async Task ConnectionClosedAsyncTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
