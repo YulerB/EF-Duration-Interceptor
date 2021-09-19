@@ -83,6 +83,35 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
+        public async Task ScalarExecutedAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandExecutedEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                null,
+                false, 
+                false,
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            await test.ScalarExecutedAsync(testCommand, eventDefinition, null);
+        }
+
+        [Fact]
         public void ScalarExecutedTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
