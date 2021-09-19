@@ -29,120 +29,51 @@ namespace EFDurationInterceptor
             this.events = new List<DbContextEventData>();
         }
 
-        public InterceptionResult<DbCommand> CommandCreating(CommandCorrelatedEventData eventData, InterceptionResult<DbCommand> result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult<DbCommand> CommandCreating(CommandCorrelatedEventData eventData, InterceptionResult<DbCommand> result) => AddAndReturn(eventData, result);
 
-        public DbCommand CommandCreated(CommandEndEventData eventData, DbCommand result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public DbCommand CommandCreated(CommandEndEventData eventData, DbCommand result) => AddAndReturn(eventData, result);
 
-        public InterceptionResult<DbDataReader> ReaderExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult<DbDataReader> ReaderExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result) => AddAndReturn(eventData, result);
 
-        public InterceptionResult<object> ScalarExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<object> result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult<object> ScalarExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<object> result) => AddAndReturn(eventData, result);
 
-        public InterceptionResult<int> NonQueryExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<int> result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult<int> NonQueryExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<int> result) =>  AddAndReturn(eventData, result);
 
-        public Task<InterceptionResult<DbDataReader>> ReaderExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<InterceptionResult<DbDataReader>> ReaderExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result, CancellationToken cancellationToken = default) => AddAndReturn(eventData, Task.FromResult(result));
 
-        public Task<InterceptionResult<object>> ScalarExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<object> result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<InterceptionResult<object>> ScalarExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<object> result, CancellationToken cancellationToken = default) => AddAndReturn(eventData, Task.FromResult(result));
 
-        public Task<InterceptionResult<int>> NonQueryExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<InterceptionResult<int>> NonQueryExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default) =>  AddAndReturn(eventData, Task.FromResult(result));
 
-        public DbDataReader ReaderExecuted(DbCommand command, CommandExecutedEventData eventData, DbDataReader result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public DbDataReader ReaderExecuted(DbCommand command, CommandExecutedEventData eventData, DbDataReader result) => AddAndReturn(eventData, result);
 
-        public object ScalarExecuted(DbCommand command, CommandExecutedEventData eventData, object result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public object ScalarExecuted(DbCommand command, CommandExecutedEventData eventData, object result) => AddAndReturn(eventData, result);
 
-        public int NonQueryExecuted(DbCommand command, CommandExecutedEventData eventData, int result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public int NonQueryExecuted(DbCommand command, CommandExecutedEventData eventData, int result) => AddAndReturn(eventData, result);
 
-        public Task<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData eventData, DbDataReader result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData eventData, DbDataReader result, CancellationToken cancellationToken = default) =>  AddAndReturn(eventData, Task.FromResult(result));
 
-        public Task<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData eventData, object result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData eventData, object result, CancellationToken cancellationToken = default) => AddAndReturn(eventData, Task.FromResult(result));
 
-        public Task<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData eventData, int result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData eventData, int result, CancellationToken cancellationToken = default) =>  AddAndReturn(eventData, Task.FromResult(result));
 
-        public void CommandFailed(DbCommand command, CommandErrorEventData eventData)
-        {
-            events.Add(eventData);
-        }
+        public void CommandFailed(DbCommand command, CommandErrorEventData eventData) =>  events.Add(eventData);
 
-        public Task CommandFailedAsync(DbCommand command, CommandErrorEventData eventData, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.CompletedTask);
-        }
+        public Task CommandFailedAsync(DbCommand command, CommandErrorEventData eventData, CancellationToken cancellationToken = default) => AddAndReturn(eventData, Task.CompletedTask);
 
-        public InterceptionResult DataReaderDisposing(DbCommand command, DataReaderDisposingEventData eventData, InterceptionResult result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult DataReaderDisposing(DbCommand command, DataReaderDisposingEventData eventData, InterceptionResult result) => AddAndReturn(eventData, result);
 
-        public InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result) => AddAndReturn(eventData, result);
 
-        public Task<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default) =>  AddAndReturn(eventData, Task.FromResult(result));
 
-        public void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
-        {
-            events.Add(eventData);
-        }
+        public void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData) => events.Add(eventData);
 
-        public Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default)
-        {
-            return AddAndReturn(eventData, Task.CompletedTask);
-        }
+        public Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default) =>  AddAndReturn(eventData, Task.CompletedTask);
 
-        public InterceptionResult ConnectionClosing(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
-        {
-            return AddAndReturn(eventData, result);
-        }
+        public InterceptionResult ConnectionClosing(DbConnection connection, ConnectionEventData eventData, InterceptionResult result) => AddAndReturn(eventData, result);
 
-        public Task<InterceptionResult> ConnectionClosingAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
-        {
-            return AddAndReturn(eventData, Task.FromResult(result));
-        }
+        public Task<InterceptionResult> ConnectionClosingAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result) => AddAndReturn(eventData, Task.FromResult(result));
 
         public T1 AddAndReturn<T, T1>(T t, T1 t1) where T: DbContextEventData 
         {
@@ -158,25 +89,13 @@ namespace EFDurationInterceptor
             return Task.CompletedTask;
         }
 
-        public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData)
-        {
-            AddCompleteClearAndReturn(eventData);
-        }
+        public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData) => AddCompleteClearAndReturn(eventData);
 
-        public Task ConnectionClosedAsync(DbConnection connection, ConnectionEndEventData eventData)
-        {
-            return AddCompleteClearAndReturn(eventData);
-        }
+        public Task ConnectionClosedAsync(DbConnection connection, ConnectionEndEventData eventData) => AddCompleteClearAndReturn(eventData);
 
-        public void ConnectionFailed(DbConnection connection, ConnectionErrorEventData eventData)
-        {
-            AddCompleteClearAndReturn(eventData);
-        }
+        public void ConnectionFailed(DbConnection connection, ConnectionErrorEventData eventData) => AddCompleteClearAndReturn(eventData);
 
-        public Task ConnectionFailedAsync(DbConnection connection, ConnectionErrorEventData eventData, CancellationToken cancellationToken = default)
-        {
-            return AddCompleteClearAndReturn(eventData);
-        }
+        public Task ConnectionFailedAsync(DbConnection connection, ConnectionErrorEventData eventData, CancellationToken cancellationToken = default) =>  AddCompleteClearAndReturn(eventData);
 
         protected virtual void OnComplete(List<DbContextEventData> eventDataList, HttpContext context)
         {
