@@ -3,6 +3,7 @@ namespace EFDurationInterceptorTest
     using System;
     using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
+    using System.Data;
     using System.Data.Common;
     using System.Linq;
     using System.Threading;
@@ -107,6 +108,33 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
+        public async Task NonQueryExecutingAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                false,
+                false,
+                new DateTimeOffset()
+            );
+
+            await test.NonQueryExecutingAsync(testCommand, eventDefinition, new InterceptionResult<int>());
+        }
+
+        [Fact]
         public void NonQueryExecutingTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
@@ -187,6 +215,36 @@ namespace EFDurationInterceptorTest
             );
 
             test.NonQueryExecuted(testCommand, eventDefinition, 1);
+            ConnectionDoubleCompletionTest();
+        }
+        
+        [Fact]
+        public void ReaderExecutedTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandExecutedEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                new SingleResultReader(new List<object>()),
+                false, 
+                false,
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.ReaderExecuted(testCommand, eventDefinition, new SingleResultReader(new List<object>()));
             ConnectionDoubleCompletionTest();
         }
 
@@ -489,4 +547,193 @@ DateTimeOffset startTime*/
             
         }
     }
+
+    internal class SingleResultReader
+        : DbDataReader  
+    {
+    
+        protected IEnumerable<object> Items { get; private set; }
+    
+        protected IEnumerator<object> Enumerator { get; private set; }
+    
+        public SingleResultReader(
+            IEnumerable<object> items)
+        {
+            Items = items;
+            Enumerator = Items.GetEnumerator();
+        }
+    
+        public override bool IsClosed
+        {
+            get { return Enumerator == null; }
+        }
+    
+        public override int RecordsAffected
+        {
+            get { return Items.Count(); }
+        }
+    
+        public override int FieldCount
+        {
+            get { return 1; }
+        }
+    
+        public override bool HasRows
+        {
+            get { return Items != null && Items.Count() > 0; }
+        }
+    
+        public override void Close()
+        {
+            Enumerator = null;
+            Items = null;
+        }
+        
+        public override bool Read()
+        {
+            return Enumerator.MoveNext();
+        }
+    
+        public override IEnumerator<object> GetEnumerator()
+        {
+            return Enumerator;
+        }
+    
+        public override int GetOrdinal(string name)
+        {
+            return 1;
+        }
+    
+        public override object this[int ordinal]
+        {
+            get { throw new NotSupportedException(); }
+        }
+    
+        public override object this[string name]
+        {
+            get { throw new NotSupportedException(); }
+        }
+    
+        public override int Depth
+        {
+            get { throw new NotSupportedException(); }
+        }
+    
+        public override string GetName(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override DataTable GetSchemaTable()
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override bool NextResult()
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override bool GetBoolean(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override byte GetByte(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override char GetChar(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override long GetChars(
+            int ordinal,
+            long dataOffset,
+            char[] buffer,
+            int bufferOffset,
+            int length)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override Guid GetGuid(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override short GetInt16(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override int GetInt32(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override long GetInt64(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override DateTime GetDateTime(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override string GetString(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override object GetValue(int fieldIndex)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override int GetValues(object[] values)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override bool IsDBNull(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override decimal GetDecimal(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override double GetDouble(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override float GetFloat(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override string GetDataTypeName(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    
+        public override Type GetFieldType(int ordinal)
+        {
+            throw new NotSupportedException();
+        }
+    }
+    
+ 
 }
