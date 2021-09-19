@@ -38,7 +38,7 @@ jobs:
       run: dotnet build --no-restore 
     - name: Test
       working-directory: test
-      run: dotnet test --logger:"trx" --logger:"junit;LogFilePath=./TestResults/junit.xml" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      run: dotnet test --logger:"trx" --logger:"junit;LogFilePath=./TestResults/junit.xml" --collect:"XPlat Code Coverage" -- xunit.parallelizeAssembly=true -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
     - name: Copy Test Results
     
       run: cp -avr test/TestResults/* src/.
