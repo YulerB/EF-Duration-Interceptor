@@ -53,6 +53,33 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
+        public async Task ReaderExecutingAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                false,
+                false,
+                new DateTimeOffset()
+            );
+
+            await test.ReaderExecutingAsync(testCommand, eventDefinition, new InterceptionResult<DbDataReader>());
+        }
+
+        [Fact]
         public void NonQueryExecutingTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
@@ -78,7 +105,6 @@ namespace EFDurationInterceptorTest
 
             test.NonQueryExecuting(testCommand, eventDefinition, new InterceptionResult<int>());
         }
-
 
         [Fact]
         public void ReaderExecutingTest()
