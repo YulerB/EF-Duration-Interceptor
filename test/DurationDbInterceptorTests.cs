@@ -305,7 +305,7 @@ namespace EFDurationInterceptorTest
             );
 
             await test.ReaderExecutedAsync(testCommand, eventDefinition, new SingleResultReader(new List<object>()));
-            ConnectionDoubleCompletionTest();
+            test.ConnectionClosed(testConnection, eventDefinition);
         }
         
 
