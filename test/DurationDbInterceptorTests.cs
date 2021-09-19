@@ -339,8 +339,9 @@ namespace EFDurationInterceptorTest
         [Fact]
         public async Task ReaderExecutedAsyncTest()
         {
+            var context = new DefaultHttpContext();
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
-            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
             SqlConnection testConnection = new SqlConnection();
@@ -376,7 +377,8 @@ namespace EFDurationInterceptorTest
             );
 
             test.ConnectionClosed(testConnection, eventDefinition1);
-        }    
+           Assert.True(context.Response.Headers.ContainsKey(DurationDbInterceptor.XDbCommandMsHeader));
+         }    
 
         [Fact]
         public void ConnectionOpeningTest()
@@ -403,8 +405,9 @@ namespace EFDurationInterceptorTest
         [Fact]
         public async Task ScalarExecutedAsyncTest()
         {
+            var context = new DefaultHttpContext();
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
-            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns(context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
             SqlConnection testConnection = new SqlConnection();
@@ -427,7 +430,7 @@ namespace EFDurationInterceptorTest
             );
 
             await test.ScalarExecutedAsync(testCommand, eventDefinition, null);
-        }
+       }
 
         [Fact]
         public void ScalarExecutedTest()
