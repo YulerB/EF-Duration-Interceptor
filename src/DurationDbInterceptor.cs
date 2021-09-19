@@ -31,8 +31,7 @@ namespace EFDurationInterceptor
 
         public InterceptionResult<DbCommand> CommandCreating(CommandCorrelatedEventData eventData, InterceptionResult<DbCommand> result)
         {
-            events.Add(eventData);
-            return result;
+            return AddAndReturn(eventData, result);
         }
 
         public DbCommand CommandCreated(CommandEndEventData eventData, DbCommand result)
@@ -57,14 +56,12 @@ namespace EFDurationInterceptor
 
         public Task<InterceptionResult<DbDataReader>> ReaderExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public Task<InterceptionResult<object>> ScalarExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<object> result, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.FromResult(result);
+            return AddAndReturn(eventData, Task.FromResult(result));
         }
 
         public Task<InterceptionResult<int>> NonQueryExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
@@ -109,8 +106,7 @@ namespace EFDurationInterceptor
 
         public Task CommandFailedAsync(DbCommand command, CommandErrorEventData eventData, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            return Task.CompletedTask;
+            return AddAndReturn(eventData, Task.CompletedTask);
         }
 
         public InterceptionResult DataReaderDisposing(DbCommand command, DataReaderDisposingEventData eventData, InterceptionResult result)
@@ -154,39 +150,38 @@ namespace EFDurationInterceptor
             return t1;
         }
 
-        public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData)
+        public Task AddCompleteClearAndReturn<T>(T t) where T: ConnectionEndEventData 
         {
-            events.Add(eventData);
+            events.Add(t);
             OnComplete(events, httpContextAccessor.HttpContext);
             events.Clear();
+            return Task.CompletedTask;
+        }
+
+        public void ConnectionClosed(DbConnection connection, ConnectionEndEventData eventData)
+        {
+            AddCompleteClearAndReturn(eventData);
         }
 
         public Task ConnectionClosedAsync(DbConnection connection, ConnectionEndEventData eventData)
         {
-            events.Add(eventData);
-            OnComplete(events, httpContextAccessor.HttpContext);
-            events.Clear();
-            return Task.CompletedTask;
+            return AddCompleteClearAndReturn(eventData);
         }
 
         public void ConnectionFailed(DbConnection connection, ConnectionErrorEventData eventData)
         {
-            events.Add(eventData);
-            OnComplete(events, httpContextAccessor.HttpContext);
-            events.Clear();
+            AddCompleteClearAndReturn(eventData);
         }
 
         public Task ConnectionFailedAsync(DbConnection connection, ConnectionErrorEventData eventData, CancellationToken cancellationToken = default)
         {
-            events.Add(eventData);
-            OnComplete(events, httpContextAccessor.HttpContext);
-            events.Clear();
-            return Task.CompletedTask;
+            return AddCompleteClearAndReturn(eventData);
         }
 
         protected virtual void OnComplete(List<DbContextEventData> eventDataList, HttpContext context)
         {
-            if(context == null){
+            if(context == null)
+            {
                 return;
             }
             
