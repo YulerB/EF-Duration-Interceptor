@@ -305,7 +305,19 @@ namespace EFDurationInterceptorTest
             );
 
             await test.ReaderExecutedAsync(testCommand, eventDefinition, new SingleResultReader(new List<object>()));
-            test.ConnectionClosed(testConnection, eventDefinition);
+ 
+           var eventDefinition1 = new ConnectionEndEventData(
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext, 
+                Guid.NewGuid(), 
+                false, 
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.ConnectionClosed(testConnection, eventDefinition1);
         }
         
 
