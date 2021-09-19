@@ -108,7 +108,7 @@ namespace EFDurationInterceptorTest
         }
 
         [Fact]
-        public async Task NonQueryExecutingAsyncTest()
+        public async Task NonQueryExecutedAsyncTest()
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
@@ -117,7 +117,7 @@ namespace EFDurationInterceptorTest
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
-            var eventDefinition = new CommandEventData (
+            var eventDefinition = new CommandExecutedEventData (
                 testDefinition,  
                 messageGenerator, 
                 testConnection, 
@@ -126,12 +126,14 @@ namespace EFDurationInterceptorTest
                 DbCommandMethod.ExecuteReader,
                 Guid.NewGuid(),
                 Guid.NewGuid(), 
+                1,
+                false, 
                 false,
-                false,
-                new DateTimeOffset()
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
             );
 
-            await test.NonQueryExecutingAsync(testCommand, eventDefinition, new InterceptionResult<int>());
+            await test.NonQueryExecutedAsync(testCommand, eventDefinition, 1);
         }
 
         [Fact]
@@ -337,17 +339,6 @@ namespace EFDurationInterceptorTest
             test.ScalarExecuted(testCommand, eventDefinition, null);
         }
 
-//   public InterceptionResult<DbCommand> CommandCreating(CommandCorrelatedEventData eventData, InterceptionResult<DbCommand> result)
-/*
-Microsoft.EntityFrameworkCore.Diagnostics.EventDefinitionBase eventDefinition, 
-Func<Microsoft.EntityFrameworkCore.Diagnostics.EventDefinitionBase,Microsoft.EntityFrameworkCore.Diagnostics.EventData,string> messageGenerator, 
-System.Data.Common.DbConnection connection, 
-Microsoft.EntityFrameworkCore.DbContext context, 
-Microsoft.EntityFrameworkCore.Diagnostics.DbCommandMethod executeMethod, 
-Guid commandId, 
-Guid connectionId, 
-bool async, 
-DateTimeOffset startTime*/
         [Fact]
         public void CommandCreatingTest()    
         {
