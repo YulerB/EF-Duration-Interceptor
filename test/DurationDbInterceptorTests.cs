@@ -26,7 +26,35 @@ namespace EFDurationInterceptorTest
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
         }
 
-//    public void CommandFailed(DbCommand command, CommandErrorEventData eventData) =>  events.Add(eventData);
+        [Fact]
+        public async Task CommandFailedAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandErrorEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                new Exception("test"),
+                false,
+                false,
+                new DateTimeOffset(),
+                TimeSpan.FromSeconds(1)
+            );
+
+            await test.CommandFailedAsync(testCommand, eventDefinition, CancellationToken.None);
+        }
+
         [Fact]
         public void CommandFailedTest()
         {
@@ -37,19 +65,6 @@ namespace EFDurationInterceptorTest
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
-            /*EventDefinitionBase, Func<EventDefinitionBase,EventData,String>, 
-            DbConnection, 
-            DbCommand, 
-            DbContext, 
-            DbCommandMethod, 
-            Guid, 
-            Guid, 
-            Exception, 
-            Boolean,
-             Boolean, 
-            DateTimeOffset, 
-            TimeSpan*/
-            
             var eventDefinition = new CommandErrorEventData (
                 testDefinition,  
                 messageGenerator, 
