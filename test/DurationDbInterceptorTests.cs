@@ -26,6 +26,49 @@ namespace EFDurationInterceptorTest
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
         }
 
+//    public void CommandFailed(DbCommand command, CommandErrorEventData eventData) =>  events.Add(eventData);
+        [Fact]
+        public void CommandFailedTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            /*EventDefinitionBase, Func<EventDefinitionBase,EventData,String>, 
+            DbConnection, 
+            DbCommand, 
+            DbContext, 
+            DbCommandMethod, 
+            Guid, 
+            Guid, 
+            Exception, 
+            Boolean,
+             Boolean, 
+            DateTimeOffset, 
+            TimeSpan*/
+            
+            var eventDefinition = new CommandErrorEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                testCommand,
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                new Exception("test"),
+                false,
+                false,
+                new DateTimeOffset(),
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.CommandFailed(testCommand, eventDefinition);
+        }
+
         [Fact]
         public void ScalarExecutingTest()
         {
@@ -318,8 +361,7 @@ namespace EFDurationInterceptorTest
             );
 
             test.ConnectionClosed(testConnection, eventDefinition1);
-        }
-        
+        }    
 
         [Fact]
         public async Task ScalarExecutedAsyncTest()
