@@ -140,6 +140,41 @@ namespace EFDurationInterceptorTest
             test.ScalarExecuted(testCommand, eventDefinition, null);
         }
 
+//   public InterceptionResult<DbCommand> CommandCreating(CommandCorrelatedEventData eventData, InterceptionResult<DbCommand> result)
+/*
+Microsoft.EntityFrameworkCore.Diagnostics.EventDefinitionBase eventDefinition, 
+Func<Microsoft.EntityFrameworkCore.Diagnostics.EventDefinitionBase,Microsoft.EntityFrameworkCore.Diagnostics.EventData,string> messageGenerator, 
+System.Data.Common.DbConnection connection, 
+Microsoft.EntityFrameworkCore.DbContext context, 
+Microsoft.EntityFrameworkCore.Diagnostics.DbCommandMethod executeMethod, 
+Guid commandId, 
+Guid connectionId, 
+bool async, 
+DateTimeOffset startTime*/
+        [Fact]
+        public void CommandCreatingTest()    
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new CommandCorrelatedEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext,
+                DbCommandMethod.ExecuteReader,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                false,
+                new DateTimeOffset()
+            );
+
+            test.CommandCreating(eventDefinition, new InterceptionResult<DbCommand>());
+        }
+
         [Fact]
         public void CommandCreatedTest()    
         {
