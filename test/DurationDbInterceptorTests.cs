@@ -498,7 +498,36 @@ namespace EFDurationInterceptorTest
             );
 
             await test.ScalarExecutedAsync(testCommand, eventDefinition, null);
-       }
+        }
+
+        [Fact]
+        public void DataReaderDisposingTest()
+        {
+            var context = new DefaultHttpContext();
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns(context);
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            SqlCommand testCommand = testConnection.CreateCommand();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new DataReaderDisposingEventData  (
+                testDefinition,  
+                messageGenerator, 
+                testCommand,
+                new SingleResultReader(new List<object>()),
+                null,//DbContext,
+                Guid.NewGuid(),
+                Guid.NewGuid(), 
+                1,
+                1,
+                new DateTimeOffset(), 
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.DataReaderDisposing(testCommand, eventDefinition, new InterceptionResult());
+        }
+
 
         [Fact]
         public void ScalarExecutedTest()
