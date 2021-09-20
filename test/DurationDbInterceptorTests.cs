@@ -402,6 +402,29 @@ namespace EFDurationInterceptorTest
             test.ConnectionOpening(testConnection, eventDefinition, new InterceptionResult());
         }    
 
+        
+        [Fact]
+        public async Task ConnectionOpeningAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext,
+                Guid.NewGuid(), 
+                false,
+                new DateTimeOffset()
+            );
+
+            await test.ConnectionOpeningAsync(testConnection, eventDefinition, new InterceptionResult(), CancellationToken.None);
+        }    
+
         [Fact]
         public async Task ScalarExecutedAsyncTest()
         {
