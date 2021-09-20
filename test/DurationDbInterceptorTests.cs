@@ -24,6 +24,7 @@ namespace EFDurationInterceptorTest
         {
             Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
         }
 
         [Fact]
@@ -33,6 +34,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -62,6 +64,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -91,6 +94,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -118,6 +122,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -145,6 +150,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -173,6 +179,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -202,6 +209,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -229,6 +237,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -256,6 +265,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -283,6 +293,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -313,6 +324,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -344,6 +356,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -387,6 +400,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEventData (
@@ -409,6 +423,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData (
@@ -432,6 +447,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData (
@@ -455,6 +471,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEventData (
@@ -478,6 +495,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns(context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -508,6 +526,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns(context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -536,6 +555,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -565,6 +585,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new CommandCorrelatedEventData (
@@ -589,6 +610,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             SqlCommand testCommand = testConnection.CreateCommand();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
@@ -617,6 +639,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionErrorEventData(
@@ -641,6 +664,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionErrorEventData(
@@ -665,6 +689,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData(
@@ -688,6 +713,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData(
@@ -711,6 +737,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData(
@@ -734,6 +761,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData(
@@ -759,6 +787,7 @@ namespace EFDurationInterceptorTest
             httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (context);
             Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
             DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            Assert.NotNull(test);
             SqlConnection testConnection = new SqlConnection();
             var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
             var eventDefinition = new ConnectionEndEventData(
@@ -821,7 +850,7 @@ namespace EFDurationInterceptorTest
     
         public override bool HasRows
         {
-            get { return Items != null && Items.Count() > 0; }
+            get { return Items != null && Items.Any(); }
         }
     
         public override void Close()
@@ -935,7 +964,7 @@ namespace EFDurationInterceptorTest
             throw new NotSupportedException();
         }
     
-        public override object GetValue(int fieldIndex)
+        public override object GetValue(int ordinal)
         {
             throw new NotSupportedException();
         }
@@ -974,7 +1003,5 @@ namespace EFDurationInterceptorTest
         {
             throw new NotSupportedException();
         }
-    }
-    
- 
+    } 
 }
