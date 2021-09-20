@@ -402,7 +402,52 @@ namespace EFDurationInterceptorTest
             test.ConnectionOpening(testConnection, eventDefinition, new InterceptionResult());
         }    
 
-        
+        [Fact]
+        public void ConnectionOpenedTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEndEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext,
+                Guid.NewGuid(), 
+                false,
+                new DateTimeOffset(),
+                TimeSpan.FromSeconds(1)
+            );
+
+            test.ConnectionOpened(testConnection, eventDefinition);
+        }    
+
+        [Fact]
+        public async Task ConnectionOpenedAsyncTest()
+        {
+            Mock<IHttpContextAccessor> httpContextAccessorMock = new Mock<IHttpContextAccessor>();   
+            httpContextAccessorMock.Setup(_ => _.HttpContext).Returns (new DefaultHttpContext());
+            Mock<ILoggingOptions> loggingOptionsMock = new Mock<ILoggingOptions>();
+            DurationDbInterceptor test = new DurationDbInterceptor(httpContextAccessorMock.Object);
+            SqlConnection testConnection = new SqlConnection();
+            var testDefinition = new TestEventDefinitionBase(loggingOptionsMock.Object, new EventId(1),LogLevel.Information, "test");
+            var eventDefinition = new ConnectionEndEventData (
+                testDefinition,  
+                messageGenerator, 
+                testConnection, 
+                null,//DbContext,
+                Guid.NewGuid(), 
+                false,
+                new DateTimeOffset(),
+                TimeSpan.FromSeconds(1)
+            );
+
+            await test.ConnectionOpenedAsync(testConnection, eventDefinition, CancellationToken.None);
+        }    
+
         [Fact]
         public async Task ConnectionOpeningAsyncTest()
         {
