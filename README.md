@@ -4,6 +4,7 @@
 [![CodeQL](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml)
 ![NuGet Badge](https://buildstats.info/nuget/EFDurationInterceptor)
 [![Sonarqube](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/sonarqube.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/sonarqube.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=YulerB_EF-Duration-Interceptor&metric=alert_status)](https://sonarcloud.io/dashboard?id=YulerB_EF-Duration-Interceptor)
 
 Entity Framework Command Duration Interceptor - Outputs as a response header.
 
