@@ -27,7 +27,4 @@ jobs:
     - name: Push
       working-directory: src
       run: dotnet nuget push "bin/Release/EFDurationInterceptor.3.1.19.nupkg"  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"  --skip-duplicate
-    - name: Pack
-      working-directory: src
-      run: dotnet pack --configuration Release
    
