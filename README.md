@@ -1,6 +1,7 @@
 # EF-Duration-Interceptor
 
 [![.NET](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.yml)
+[![.NET GITHUB PACKAGE](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.github.package.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/dotnet.github.package.yml)
 [![CodeQL](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/codeql-analysis.yml)
 ![NuGet Badge](https://buildstats.info/nuget/EFDurationInterceptor)
 [![Sonarqube](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/sonarqube.yml/badge.svg)](https://github.com/YulerB/EF-Duration-Interceptor/actions/workflows/sonarqube.yml)
