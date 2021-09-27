@@ -1,4 +1,4 @@
-name: .NET GITHUB Package
+name: .NET GITHUB PACKAGE
 
 on:
   push:
