@@ -1,6 +1,7 @@
 namespace EFDurationInterceptorTest
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
     using System.Data;
@@ -337,14 +338,14 @@ namespace EFDurationInterceptorTest
                 DbCommandMethod.ExecuteReader,
                 Guid.NewGuid(),
                 Guid.NewGuid(), 
-                new SingleResultReader(new List<object>()),
+                new SingleResultReader<object>(new List<object>()),
                 false, 
                 false,
                 new DateTimeOffset(), 
                 TimeSpan.FromSeconds(1)
             );
 
-            test.ReaderExecuted(testCommand, eventDefinition, new SingleResultReader(new List<object>()));
+            test.ReaderExecuted(testCommand, eventDefinition, new SingleResultReader<object>(new List<object>()));
             ConnectionDoubleCompletionTest();
         }
 
@@ -369,14 +370,14 @@ namespace EFDurationInterceptorTest
                 DbCommandMethod.ExecuteReader,
                 Guid.NewGuid(),
                 Guid.NewGuid(), 
-                new SingleResultReader(new List<object>()),
+                new SingleResultReader<object>(new List<object>()),
                 false, 
                 false,
                 new DateTimeOffset(), 
                 TimeSpan.FromSeconds(1)
             );
 
-            await test.ReaderExecutedAsync(testCommand, eventDefinition, new SingleResultReader(new List<object>()));
+            await test.ReaderExecutedAsync(testCommand, eventDefinition, new SingleResultReader<object>(new List<object>()));
  
            var eventDefinition1 = new ConnectionEndEventData(
                 testDefinition,  
@@ -534,7 +535,7 @@ namespace EFDurationInterceptorTest
                 testDefinition,  
                 messageGenerator, 
                 testCommand,
-                new SingleResultReader(new List<object>()),
+                new SingleResultReader<object>(new List<object>()),
                 null,//DbContext,
                 Guid.NewGuid(),
                 Guid.NewGuid(), 
@@ -818,16 +819,15 @@ namespace EFDurationInterceptorTest
         }
     }
 
-    internal class SingleResultReader
+    internal class SingleResultReader<T>
         : DbDataReader  
     {
+        protected IEnumerable<T> Items { get; private set; }
     
-        protected IEnumerable<object> Items { get; private set; }
-    
-        protected IEnumerator<object> Enumerator { get; private set; }
+        protected IEnumerator<T> Enumerator { get; private set; }
     
         public SingleResultReader(
-            IEnumerable<object> items)
+            IEnumerable<T> items)
         {
             Items = items;
             Enumerator = Items.GetEnumerator();
@@ -863,12 +863,12 @@ namespace EFDurationInterceptorTest
         {
             return Enumerator.MoveNext();
         }
-    
-        public override IEnumerator<object> GetEnumerator()
+
+        public override IEnumerator GetEnumerator()
         {
             return Enumerator;
         }
-    
+
         public override int GetOrdinal(string name)
         {
             return 1;
